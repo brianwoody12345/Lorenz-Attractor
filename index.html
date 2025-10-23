@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorenz Attractor - Interactive Parameters</title>
+    <title>Lorenz Attractor - Futuristic Elegance</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
         
         body {
-            background: #000;
-            color: white;
+            background: #0a0a0a;
+            color: #e0e0e0;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             height: 100vh;
@@ -27,15 +27,19 @@
         .animation-panel {
             flex: 1;
             position: relative;
-            background: #000;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(30, 30, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(60, 30, 60, 0.1) 0%, transparent 50%),
+                #0a0a0a;
         }
         
         .info-panel {
-            width: 380px;
-            background: rgba(20, 20, 40, 0.95);
+            width: 350px;
+            background: rgba(15, 15, 25, 0.9);
             padding: 25px;
-            border-left: 3px solid #333;
+            border-left: 1px solid #333;
             overflow-y: auto;
+            backdrop-filter: blur(10px);
         }
         
         canvas {
@@ -47,87 +51,99 @@
         }
         
         h1 {
-            color: #4fc3f7;
-            font-size: 2em;
+            color: #88ccff;
+            font-size: 1.8em;
             margin-bottom: 8px;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
+            font-weight: 300;
+            letter-spacing: 1px;
         }
         
         .subtitle {
-            color: #ff4081;
-            font-size: 1em;
+            color: #cc88ff;
+            font-size: 0.9em;
             margin-bottom: 20px;
+            font-weight: 300;
+            opacity: 0.8;
         }
         
         .equations {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(30, 30, 45, 0.6);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            border: 1px solid #444;
+            border: 1px solid #2a2a3a;
         }
         
         .equation {
             font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            margin: 6px 0;
-            color: #4fc3f7;
+            font-size: 0.85em;
+            margin: 5px 0;
+            color: #88ccff;
+            opacity: 0.9;
         }
         
         .parameters-panel {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(30, 30, 45, 0.6);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 15px;
-            border: 1px solid #444;
+            border: 1px solid #2a2a3a;
         }
         
         .param-control {
-            margin: 12px 0;
+            margin: 10px 0;
         }
         
         .param-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 0.9em;
+            margin-bottom: 4px;
+            font-size: 0.85em;
         }
         
         .param-name {
-            color: #4fc3f7;
-            font-weight: bold;
+            color: #cc88ff;
+            font-weight: 300;
         }
         
         .param-value {
-            color: #ff4081;
+            color: #88ccff;
             font-family: 'Courier New', monospace;
+            font-size: 0.9em;
         }
         
         input[type="range"] {
             width: 100%;
-            height: 6px;
-            background: #333;
-            border-radius: 3px;
+            height: 4px;
+            background: #2a2a3a;
+            border-radius: 2px;
             outline: none;
             -webkit-appearance: none;
         }
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #4fc3f7;
+            width: 12px;
+            height: 12px;
+            background: #88ccff;
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #aaddff;
+            transform: scale(1.1);
         }
         
         input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            background: #4fc3f7;
+            width: 12px;
+            height: 12px;
+            background: #88ccff;
             border-radius: 50%;
             cursor: pointer;
             border: none;
+            transition: all 0.2s ease;
         }
         
         .controls {
@@ -138,54 +154,62 @@
         }
         
         button {
-            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
-            border: none;
+            background: rgba(136, 204, 255, 0.1);
+            border: 1px solid rgba(136, 204, 255, 0.3);
             padding: 10px;
             border-radius: 6px;
-            color: #000;
-            font-weight: bold;
+            color: #88ccff;
+            font-weight: 300;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            backdrop-filter: blur(5px);
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+            background: rgba(136, 204, 255, 0.2);
+            border-color: rgba(136, 204, 255, 0.5);
+            transform: translateY(-1px);
         }
         
         .status {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(30, 30, 45, 0.6);
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-top: 15px;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            border: 1px solid #2a2a3a;
         }
         
         .axis-label {
             position: absolute;
-            color: #888;
-            font-size: 14px;
-            font-weight: bold;
+            color: #666;
+            font-size: 12px;
+            font-weight: 300;
             pointer-events: none;
             z-index: 10;
+            font-family: 'Courier New', monospace;
         }
         
         .preset-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 10px 0;
+            gap: 6px;
+            margin: 8px 0;
         }
         
         .preset-btn {
-            background: linear-gradient(45deg, #ff4081, #e91e63);
-            font-size: 0.8em;
-            padding: 8px;
+            background: rgba(204, 136, 255, 0.1);
+            border: 1px solid rgba(204, 136, 255, 0.3);
+            color: #cc88ff;
+            font-size: 0.75em;
+            padding: 6px;
         }
         
         .reset-params {
-            background: linear-gradient(45deg, #00e676, #00c853);
+            background: rgba(136, 255, 204, 0.1);
+            border: 1px solid rgba(136, 255, 204, 0.3);
+            color: #88ffcc;
             margin-top: 5px;
         }
     </style>
@@ -200,22 +224,22 @@
         </div>
         
         <div class="info-panel">
-            <h1>🦋 Lorenz Attractor</h1>
-            <div class="subtitle">Interactive Chaos Theory</div>
+            <h1>LORENZ ATTRACTOR</h1>
+            <div class="subtitle">Deterministic Chaos</div>
             
             <div class="equations">
-                <h3>📐 Lorenz System Equations</h3>
+                <div style="margin-bottom: 8px; color: #cc88ff; font-size: 0.9em;">SYSTEM EQUATIONS</div>
                 <div class="equation">dx/dt = σ(y - x)</div>
                 <div class="equation">dy/dt = x(ρ - z) - y</div>
                 <div class="equation">dz/dt = xy - βz</div>
             </div>
             
             <div class="parameters-panel">
-                <h3>🎛️ System Parameters</h3>
+                <div style="margin-bottom: 8px; color: #cc88ff; font-size: 0.9em;">PARAMETERS</div>
                 
                 <div class="param-control">
                     <div class="param-label">
-                        <span class="param-name">σ (Sigma)</span>
+                        <span class="param-name">σ</span>
                         <span class="param-value" id="sigmaValue">10.0</span>
                     </div>
                     <input type="range" id="sigmaSlider" min="1" max="20" step="0.1" value="10">
@@ -223,7 +247,7 @@
                 
                 <div class="param-control">
                     <div class="param-label">
-                        <span class="param-name">ρ (Rho)</span>
+                        <span class="param-name">ρ</span>
                         <span class="param-value" id="rhoValue">28.0</span>
                     </div>
                     <input type="range" id="rhoSlider" min="10" max="50" step="0.1" value="28">
@@ -231,46 +255,29 @@
                 
                 <div class="param-control">
                     <div class="param-label">
-                        <span class="param-name">β (Beta)</span>
+                        <span class="param-name">β</span>
                         <span class="param-value" id="betaValue">2.67</span>
                     </div>
                     <input type="range" id="betaSlider" min="0.5" max="5" step="0.01" value="2.67">
                 </div>
-                
-                <div class="preset-buttons">
-                    <button class="preset-btn" onclick="setPreset('classic')">Classic</button>
-                    <button class="preset-btn" onclick="setPreset('butterfly')">Butterfly</button>
-                    <button class="preset-btn" onclick="setPreset('spiral')">Spiral</button>
-                    <button class="preset-btn" onclick="setPreset('chaotic')">Highly Chaotic</button>
-                </div>
-                
-                <button class="reset-params" onclick="resetParameters()">Reset Parameters</button>
             </div>
             
             <div class="controls">
-                <button onclick="resetSystem()">🔄 Reset</button>
-                <button onclick="togglePause()">⏸️ Pause</button>
-                <button onclick="changeColors()">🎨 Colors</button>
-                <button onclick="toggleRotation()">🔄 Rotate</button>
-                <button onclick="increaseSpeed()">⚡ Faster</button>
-                <button onclick="decreaseSpeed()">🐢 Slower</button>
-                <button onclick="toggleAxes()">📐 Axes</button>
-                <button onclick="randomStart()">🎲 Random</button>
+                <button onclick="resetSystem()">RESET</button>
+                <button onclick="togglePause()" id="pauseBtn">PAUSE</button>
+                <button onclick="changeColors()">THEME</button>
+                <button onclick="toggleRotation()" id="rotateBtn">ROTATE</button>
+                <button onclick="increaseSpeed()">FASTER</button>
+                <button onclick="decreaseSpeed()">SLOWER</button>
+                <button onclick="toggleAxes()" id="axesBtn">AXES</button>
+                <button onclick="randomStart()">RANDOM</button>
             </div>
             
             <div class="status">
-                <strong>Current Values:</strong><br>
-                <div id="currentValues">x: 0.00, y: 0.00, z: 0.00</div>
-                <br>
-                <strong>Points Drawn:</strong><br>
-                <div id="pointsValue">0</div>
-                <br>
-                <strong>View Angle:</strong><br>
-                <div id="angleValue">0°</div>
-            </div>
-            
-            <div style="margin-top: 15px; font-size: 0.75em; color: #888; text-align: center;">
-                Adjust parameters to explore different chaotic behaviors!
+                <div style="color: #cc88ff; margin-bottom: 6px;">SYSTEM STATE</div>
+                <div style="margin-bottom: 4px;"><span style="color: #888;">Position:</span> <span id="currentValues">x: 0.00, y: 0.00, z: 0.00</span></div>
+                <div style="margin-bottom: 4px;"><span style="color: #888;">Points:</span> <span id="pointsValue">0</span></div>
+                <div><span style="color: #888;">View:</span> <span id="angleValue">0°</span></div>
             </div>
         </div>
     </div>
@@ -288,7 +295,7 @@
             updateAxisLabels();
         }
         
-        // Lorenz system parameters - now editable
+        // Lorenz system parameters
         let sigma = 10;
         let rho = 28;
         let beta = 8/3;
@@ -304,17 +311,35 @@
         let points = [];
         const maxPoints = 2000;
         let isPaused = false;
-        let rotationAngle = 0;
-        let autoRotate = true;
+        let rotationAngle = Math.PI / 6; // Start at 30 degrees for better perspective
+        let autoRotate = false; // Start stationary
         let showTrail = true;
         let showAxes = true;
         
-        // Color system
+        // Sleek color schemes
         let colorScheme = 0;
         const colorSchemes = [
-            { background: '#000011', trail: '#4fc3f7', current: '#ff4081', x: '#ff4444', y: '#44ff44', z: '#4444ff' },
-            { background: '#0a0a2a', trail: '#00e676', current: '#ff9100', x: '#ff6b6b', y: '#51cf66', z: '#339af0' },
-            { background: '#1a001a', trail: '#e040fb', current: '#18ffff', x: '#ff4757', y: '#2ed573', z: '#3742fa' }
+            { 
+                background: '#0a0a0a', 
+                trail: 'rgba(136, 204, 255, 0.8)', 
+                current: 'rgba(255, 255, 255, 0.9)',
+                axes: 'rgba(180, 180, 200, 0.6)',
+                accent: 'rgba(204, 136, 255, 0.8)'
+            },
+            { 
+                background: '#0a0a0a', 
+                trail: 'rgba(136, 255, 204, 0.8)', 
+                current: 'rgba(255, 255, 255, 0.9)',
+                axes: 'rgba(180, 200, 180, 0.6)',
+                accent: 'rgba(255, 204, 136, 0.8)'
+            },
+            { 
+                background: '#0a0a0a', 
+                trail: 'rgba(255, 136, 204, 0.8)', 
+                current: 'rgba(255, 255, 255, 0.9)',
+                axes: 'rgba(200, 180, 180, 0.6)',
+                accent: 'rgba(136, 204, 255, 0.8)'
+            }
         ];
         
         // Initialize
@@ -346,51 +371,14 @@
             });
         }
         
-        // Parameter presets
-        function setPreset(type) {
-            const sigmaSlider = document.getElementById('sigmaSlider');
-            const rhoSlider = document.getElementById('rhoSlider');
-            const betaSlider = document.getElementById('betaSlider');
-            
-            switch(type) {
-                case 'classic':
-                    sigmaSlider.value = 10;
-                    rhoSlider.value = 28;
-                    betaSlider.value = 2.67;
-                    break;
-                case 'butterfly':
-                    sigmaSlider.value = 10;
-                    rhoSlider.value = 28;
-                    betaSlider.value = 2.67;
-                    break;
-                case 'spiral':
-                    sigmaSlider.value = 10;
-                    rhoSlider.value = 14;
-                    betaSlider.value = 2.67;
-                    break;
-                case 'chaotic':
-                    sigmaSlider.value = 16;
-                    rhoSlider.value = 45;
-                    betaSlider.value = 4;
-                    break;
-            }
-            
-            // Trigger the input events to update values
-            sigmaSlider.dispatchEvent(new Event('input'));
-            rhoSlider.dispatchEvent(new Event('input'));
-            betaSlider.dispatchEvent(new Event('input'));
-        }
-        
-        function resetParameters() {
-            setPreset('classic');
-        }
-        
         // Update axis labels position based on rotation
         function updateAxisLabels() {
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const labelDistance = 180;
+            const labelDistance = 160;
             
+            // Standard mathematical coordinate system:
+            // X: left/right, Y: up/down, Z: forward/backward
             const xLabelX = centerX + Math.cos(rotationAngle) * labelDistance;
             const xLabelY = centerY + Math.sin(rotationAngle) * labelDistance;
             
@@ -402,15 +390,12 @@
             
             document.getElementById('xAxisLabel').style.left = xLabelX + 'px';
             document.getElementById('xAxisLabel').style.top = xLabelY + 'px';
-            document.getElementById('xAxisLabel').style.color = colorSchemes[colorScheme].x;
             
             document.getElementById('yAxisLabel').style.left = yLabelX + 'px';
             document.getElementById('yAxisLabel').style.top = yLabelY + 'px';
-            document.getElementById('yAxisLabel').style.color = colorSchemes[colorScheme].y;
             
             document.getElementById('zAxisLabel').style.left = zLabelX + 'px';
             document.getElementById('zAxisLabel').style.top = zLabelY + 'px';
-            document.getElementById('zAxisLabel').style.color = colorSchemes[colorScheme].z;
             
             document.getElementById('angleValue').textContent = Math.round(rotationAngle * 180/Math.PI) + '°';
         }
@@ -453,53 +438,55 @@
             document.getElementById('pointsValue').textContent = points.length;
         }
         
-        // Draw proper 3D coordinate system
+        // Draw elegant 3D coordinate system
         function drawCoordinateSystem(centerX, centerY) {
             if (!showAxes) return;
             
             const colors = colorSchemes[colorScheme];
-            const axisLength = 160;
+            const axisLength = 150;
             
             ctx.save();
             ctx.translate(centerX, centerY);
             ctx.rotate(rotationAngle);
             
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1.5;
             ctx.setLineDash([]);
             
-            // X Axis (Red)
-            ctx.strokeStyle = colors.x;
+            // All axes in silver/gray
+            ctx.strokeStyle = colors.axes;
+            ctx.fillStyle = colors.axes;
+            
+            // X Axis (horizontal)
             ctx.beginPath();
             ctx.moveTo(-axisLength, 0);
             ctx.lineTo(axisLength, 0);
             ctx.stroke();
             
-            // Y Axis (Green)
-            ctx.strokeStyle = colors.y;
+            // Y Axis (vertical)  
             ctx.beginPath();
             ctx.moveTo(0, -axisLength);
             ctx.lineTo(0, axisLength);
             ctx.stroke();
             
-            // Z Axis (Blue)
-            ctx.strokeStyle = colors.z;
-            ctx.setLineDash([5, 3]);
+            // Z Axis (depth - diagonal)
+            ctx.setLineDash([3, 3]);
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(-axisLength * 0.8, axisLength * 0.8);
+            ctx.lineTo(-axisLength * 0.6, axisLength * 0.6);
             ctx.stroke();
             ctx.setLineDash([]);
             
-            // Axis arrows
-            drawArrow(axisLength, 0, colors.x, 10);
-            drawArrow(0, -axisLength, colors.y, 10);
-            drawArrow(-axisLength * 0.8, axisLength * 0.8, colors.z, 10);
+            // Subtle axis arrows
+            drawArrow(axisLength, 0, 6);
+            drawArrow(0, -axisLength, 6);
+            drawArrow(-axisLength * 0.6, axisLength * 0.6, 6);
             
             ctx.restore();
         }
         
-        function drawArrow(x, y, color, size) {
-            ctx.fillStyle = color;
+        function drawArrow(x, y, size) {
+            const colors = colorSchemes[colorScheme];
+            ctx.fillStyle = colors.axes;
             ctx.save();
             ctx.translate(x, y);
             
@@ -522,7 +509,8 @@
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             
-            ctx.fillStyle = colors.background + '08';
+            // Clear with very subtle fade
+            ctx.fillStyle = colors.background + '05';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             drawCoordinateSystem(centerX, centerY);
@@ -531,15 +519,16 @@
             ctx.translate(centerX, centerY);
             ctx.rotate(rotationAngle);
             
+            // Draw trail with elegant gradient
             if (showTrail && points.length > 1) {
-                ctx.lineWidth = 2.5;
+                ctx.lineWidth = 2;
                 
                 for (let i = 0; i < points.length - 1; i++) {
                     const p1 = points[i];
                     const p2 = points[i + 1];
-                    const alpha = 0.2 + (i / points.length) * 0.8;
+                    const alpha = 0.1 + (i / points.length) * 0.7; // More subtle
                     
-                    ctx.strokeStyle = `rgba(79, 195, 247, ${alpha})`;
+                    ctx.strokeStyle = colors.trail.replace('0.8', alpha.toFixed(2));
                     
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
@@ -548,14 +537,15 @@
                 }
             }
             
+            // Draw current position with subtle glow
             if (points.length > 0) {
                 const current = points[points.length - 1];
                 
                 ctx.shadowColor = colors.current;
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = 8;
                 ctx.fillStyle = colors.current;
                 ctx.beginPath();
-                ctx.arc(current.x, current.y, 6, 0, Math.PI * 2);
+                ctx.arc(current.x, current.y, 4, 0, Math.PI * 2);
                 ctx.fill();
                 
                 ctx.shadowBlur = 0;
@@ -577,13 +567,14 @@
             y = 0;
             z = 0;
             points = [];
-            rotationAngle = 0;
+            rotationAngle = Math.PI / 6; // Reset to initial view
             dt = 0.01;
             updateAxisLabels();
         }
         
         function togglePause() {
             isPaused = !isPaused;
+            document.getElementById('pauseBtn').textContent = isPaused ? 'RESUME' : 'PAUSE';
         }
         
         function changeColors() {
@@ -593,6 +584,7 @@
         
         function toggleRotation() {
             autoRotate = !autoRotate;
+            document.getElementById('rotateBtn').textContent = autoRotate ? 'STOP' : 'ROTATE';
         }
         
         function increaseSpeed() {
@@ -605,6 +597,7 @@
         
         function toggleAxes() {
             showAxes = !showAxes;
+            document.getElementById('axesBtn').textContent = showAxes ? 'AXES' : 'SHOW AXES';
         }
         
         function randomStart() {
