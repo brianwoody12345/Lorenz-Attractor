@@ -22,6 +22,7 @@
         .container {
             display: flex;
             height: 100vh;
+            flex-direction: row;
         }
         
         .animation-panel {
@@ -31,15 +32,43 @@
                 radial-gradient(circle at 20% 80%, rgba(30, 30, 60, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(60, 30, 60, 0.1) 0%, transparent 50%),
                 #0a0a0a;
+            min-height: 400px;
         }
         
         .info-panel {
             width: 350px;
-            background: rgba(15, 15, 25, 0.9);
-            padding: 25px;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 20px;
             border-left: 1px solid #333;
             overflow-y: auto;
             backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        /* Custom scrollbar for info panel */
+        .info-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .info-content::-webkit-scrollbar-track {
+            background: rgba(30, 30, 45, 0.5);
+            border-radius: 2px;
+        }
+        
+        .info-content::-webkit-scrollbar-thumb {
+            background: rgba(136, 204, 255, 0.3);
+            border-radius: 2px;
+        }
+        
+        .info-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(136, 204, 255, 0.5);
         }
         
         canvas {
@@ -52,53 +81,53 @@
         
         h1 {
             color: #88ccff;
-            font-size: 1.8em;
-            margin-bottom: 8px;
+            font-size: 1.6em;
+            margin-bottom: 6px;
             font-weight: 300;
             letter-spacing: 1px;
         }
         
         .subtitle {
             color: #cc88ff;
-            font-size: 0.9em;
-            margin-bottom: 20px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
             font-weight: 300;
             opacity: 0.8;
         }
         
         .equations {
             background: rgba(30, 30, 45, 0.6);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
             border: 1px solid #2a2a3a;
         }
         
         .equation {
             font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-            margin: 5px 0;
+            font-size: 0.8em;
+            margin: 4px 0;
             color: #88ccff;
             opacity: 0.9;
         }
         
         .parameters-panel {
             background: rgba(30, 30, 45, 0.6);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
             border: 1px solid #2a2a3a;
         }
         
         .param-control {
-            margin: 10px 0;
+            margin: 8px 0;
         }
         
         .param-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
-            font-size: 0.85em;
+            margin-bottom: 3px;
+            font-size: 0.8em;
         }
         
         .param-name {
@@ -109,12 +138,12 @@
         .param-value {
             color: #88ccff;
             font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         input[type="range"] {
             width: 100%;
-            height: 4px;
+            height: 3px;
             background: #2a2a3a;
             border-radius: 2px;
             outline: none;
@@ -123,8 +152,8 @@
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: #88ccff;
             border-radius: 50%;
             cursor: pointer;
@@ -137,8 +166,8 @@
         }
         
         input[type="range"]::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: #88ccff;
             border-radius: 50%;
             cursor: pointer;
@@ -149,20 +178,20 @@
         .controls {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 15px 0;
+            gap: 6px;
+            margin: 12px 0;
         }
         
         button {
             background: rgba(136, 204, 255, 0.1);
             border: 1px solid rgba(136, 204, 255, 0.3);
-            padding: 10px;
-            border-radius: 6px;
+            padding: 8px 6px;
+            border-radius: 5px;
             color: #88ccff;
             font-weight: 300;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8em;
+            font-size: 0.75em;
             backdrop-filter: blur(5px);
         }
         
@@ -174,43 +203,161 @@
         
         .status {
             background: rgba(30, 30, 45, 0.6);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 0.8em;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 12px;
+            font-size: 0.75em;
             border: 1px solid #2a2a3a;
         }
         
         .axis-label {
             position: absolute;
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 300;
             pointer-events: none;
             z-index: 10;
             font-family: 'Courier New', monospace;
         }
         
-        .preset-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin: 8px 0;
+        .mobile-footer {
+            display: none;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 10px;
+            border-top: 1px solid #333;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
         
-        .preset-btn {
-            background: rgba(204, 136, 255, 0.1);
-            border: 1px solid rgba(204, 136, 255, 0.3);
-            color: #cc88ff;
-            font-size: 0.75em;
-            padding: 6px;
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: 100vh;
+                position: relative;
+            }
+            
+            .animation-panel {
+                width: 100%;
+                height: 50vh;
+                min-height: 250px;
+                flex: none;
+            }
+            
+            .info-panel {
+                width: 100%;
+                height: 50vh;
+                border-left: none;
+                border-top: 1px solid #333;
+                padding: 15px;
+                position: relative;
+            }
+            
+            .info-content {
+                height: calc(100% - 60px);
+                overflow-y: auto;
+            }
+            
+            .mobile-footer {
+                display: block;
+            }
+            
+            h1 {
+                font-size: 1.4em;
+            }
+            
+            .subtitle {
+                font-size: 0.8em;
+                margin-bottom: 12px;
+            }
+            
+            .controls {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 5px;
+                margin: 10px 0;
+            }
+            
+            button {
+                padding: 6px 4px;
+                font-size: 0.7em;
+            }
+            
+            .parameters-panel,
+            .equations,
+            .status {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .param-control {
+                margin: 6px 0;
+            }
+            
+            .equation {
+                font-size: 0.75em;
+                margin: 3px 0;
+            }
         }
         
-        .reset-params {
-            background: rgba(136, 255, 204, 0.1);
-            border: 1px solid rgba(136, 255, 204, 0.3);
-            color: #88ffcc;
-            margin-top: 5px;
+        /* Small mobile devices */
+        @media (max-width: 375px) {
+            .info-panel {
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+            }
+            
+            .controls {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .parameters-panel,
+            .equations {
+                padding: 8px;
+            }
+        }
+        
+        /* Very small mobile devices */
+        @media (max-width: 320px) {
+            .info-panel {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.2em;
+            }
+            
+            .controls {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            button {
+                font-size: 0.65em;
+                padding: 5px 3px;
+            }
+        }
+        
+        /* Tablet Styles */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .info-panel {
+                width: 300px;
+                padding: 15px;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr 1fr;
+                gap: 5px;
+            }
+            
+            button {
+                padding: 7px 5px;
+                font-size: 0.7em;
+            }
         }
     </style>
 </head>
@@ -224,61 +371,81 @@
         </div>
         
         <div class="info-panel">
-            <h1>LORENZ ATTRACTOR</h1>
-            <div class="subtitle">Deterministic Chaos</div>
-            
-            <div class="equations">
-                <div style="margin-bottom: 8px; color: #cc88ff; font-size: 0.9em;">SYSTEM EQUATIONS</div>
-                <div class="equation">dx/dt = σ(y - x)</div>
-                <div class="equation">dy/dt = x(ρ - z) - y</div>
-                <div class="equation">dz/dt = xy - βz</div>
-            </div>
-            
-            <div class="parameters-panel">
-                <div style="margin-bottom: 8px; color: #cc88ff; font-size: 0.9em;">PARAMETERS</div>
+            <div class="info-content">
+                <h1>LORENZ ATTRACTOR</h1>
+                <div class="subtitle">Deterministic Chaos</div>
                 
-                <div class="param-control">
-                    <div class="param-label">
-                        <span class="param-name">σ</span>
-                        <span class="param-value" id="sigmaValue">10.0</span>
-                    </div>
-                    <input type="range" id="sigmaSlider" min="1" max="20" step="0.1" value="10">
+                <div class="equations">
+                    <div style="margin-bottom: 6px; color: #cc88ff; font-size: 0.85em;">SYSTEM EQUATIONS</div>
+                    <div class="equation">dx/dt = σ(y - x)</div>
+                    <div class="equation">dy/dt = x(ρ - z) - y</div>
+                    <div class="equation">dz/dt = xy - βz</div>
                 </div>
                 
-                <div class="param-control">
-                    <div class="param-label">
-                        <span class="param-name">ρ</span>
-                        <span class="param-value" id="rhoValue">28.0</span>
+                <div class="parameters-panel">
+                    <div style="margin-bottom: 6px; color: #cc88ff; font-size: 0.85em;">PARAMETERS</div>
+                    
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span class="param-name">σ</span>
+                            <span class="param-value" id="sigmaValue">10.0</span>
+                        </div>
+                        <input type="range" id="sigmaSlider" min="1" max="20" step="0.1" value="10">
                     </div>
-                    <input type="range" id="rhoSlider" min="10" max="50" step="0.1" value="28">
+                    
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span class="param-name">ρ</span>
+                            <span class="param-value" id="rhoValue">28.0</span>
+                        </div>
+                        <input type="range" id="rhoSlider" min="10" max="50" step="0.1" value="28">
+                    </div>
+                    
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span class="param-name">β</span>
+                            <span class="param-value" id="betaValue">2.67</span>
+                        </div>
+                        <input type="range" id="betaSlider" min="0.5" max="5" step="0.01" value="2.67">
+                    </div>
                 </div>
                 
-                <div class="param-control">
-                    <div class="param-label">
-                        <span class="param-name">β</span>
-                        <span class="param-value" id="betaValue">2.67</span>
+                <div class="controls">
+                    <button onclick="resetSystem()">RESET</button>
+                    <button onclick="togglePause()" id="pauseBtn">PAUSE</button>
+                    <button onclick="changeColors()">THEME</button>
+                    <button onclick="toggleRotation()" id="rotateBtn">ROTATE</button>
+                    <button onclick="increaseSpeed()">FASTER</button>
+                    <button onclick="decreaseSpeed()">SLOWER</button>
+                    <button onclick="toggleAxes()" id="axesBtn">AXES</button>
+                    <button onclick="randomStart()">RANDOM</button>
+                </div>
+                
+                <div class="status">
+                    <div style="color: #cc88ff; margin-bottom: 4px; font-size: 0.8em;">SYSTEM STATE</div>
+                    <div style="margin-bottom: 3px; font-size: 0.75em;">
+                        <span style="color: #888;">Position:</span> 
+                        <span id="currentValues">x: 0.00, y: 0.00, z: 0.00</span>
                     </div>
-                    <input type="range" id="betaSlider" min="0.5" max="5" step="0.01" value="2.67">
+                    <div style="margin-bottom: 3px; font-size: 0.75em;">
+                        <span style="color: #888;">Points:</span> 
+                        <span id="pointsValue">0</span>
+                    </div>
+                    <div style="font-size: 0.75em;">
+                        <span style="color: #888;">View:</span> 
+                        <span id="angleValue">30°</span>
+                    </div>
                 </div>
             </div>
-            
-            <div class="controls">
-                <button onclick="resetSystem()">RESET</button>
-                <button onclick="togglePause()" id="pauseBtn">PAUSE</button>
-                <button onclick="changeColors()">THEME</button>
-                <button onclick="toggleRotation()" id="rotateBtn">ROTATE</button>
-                <button onclick="increaseSpeed()">FASTER</button>
-                <button onclick="decreaseSpeed()">SLOWER</button>
-                <button onclick="toggleAxes()" id="axesBtn">AXES</button>
-                <button onclick="randomStart()">RANDOM</button>
-            </div>
-            
-            <div class="status">
-                <div style="color: #cc88ff; margin-bottom: 6px;">SYSTEM STATE</div>
-                <div style="margin-bottom: 4px;"><span style="color: #888;">Position:</span> <span id="currentValues">x: 0.00, y: 0.00, z: 0.00</span></div>
-                <div style="margin-bottom: 4px;"><span style="color: #888;">Points:</span> <span id="pointsValue">0</span></div>
-                <div><span style="color: #888;">View:</span> <span id="angleValue">0°</span></div>
-            </div>
+        </div>
+    </div>
+
+    <div class="mobile-footer">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+            <button onclick="resetSystem()" style="font-size: 0.7em; padding: 6px 3px;">RESET</button>
+            <button onclick="togglePause()" id="mobilePauseBtn" style="font-size: 0.7em; padding: 6px 3px;">PAUSE</button>
+            <button onclick="toggleRotation()" id="mobileRotateBtn" style="font-size: 0.7em; padding: 6px 3px;">ROTATE</button>
+            <button onclick="changeColors()" style="font-size: 0.7em; padding: 6px 3px;">THEME</button>
         </div>
     </div>
 
@@ -287,12 +454,22 @@
         const canvas = document.getElementById('lorenzCanvas');
         const ctx = canvas.getContext('2d');
         
-        // Set canvas size
+        // Set canvas size with proper aspect ratio
         function resizeCanvas() {
             const container = canvas.parentElement;
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            adjustScaleForScreen();
             updateAxisLabels();
+        }
+        
+        function adjustScaleForScreen() {
+            const isMobile = window.innerWidth <= 768;
+            scale = isMobile ? 6 : 8;
         }
         
         // Lorenz system parameters
@@ -309,10 +486,10 @@
         let dt = 0.01;
         let scale = 8;
         let points = [];
-        const maxPoints = 2000;
+        const maxPoints = 1500;
         let isPaused = false;
-        let rotationAngle = Math.PI / 6; // Start at 30 degrees for better perspective
-        let autoRotate = false; // Start stationary
+        let rotationAngle = Math.PI / 6;
+        let autoRotate = false;
         let showTrail = true;
         let showAxes = true;
         
@@ -375,10 +552,8 @@
         function updateAxisLabels() {
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const labelDistance = 160;
+            const labelDistance = Math.min(centerX, centerY) * 0.7;
             
-            // Standard mathematical coordinate system:
-            // X: left/right, Y: up/down, Z: forward/backward
             const xLabelX = centerX + Math.cos(rotationAngle) * labelDistance;
             const xLabelY = centerY + Math.sin(rotationAngle) * labelDistance;
             
@@ -443,7 +618,7 @@
             if (!showAxes) return;
             
             const colors = colorSchemes[colorScheme];
-            const axisLength = 150;
+            const axisLength = Math.min(centerX, centerY) * 0.8;
             
             ctx.save();
             ctx.translate(centerX, centerY);
@@ -452,23 +627,22 @@
             ctx.lineWidth = 1.5;
             ctx.setLineDash([]);
             
-            // All axes in silver/gray
             ctx.strokeStyle = colors.axes;
             ctx.fillStyle = colors.axes;
             
-            // X Axis (horizontal)
+            // X Axis
             ctx.beginPath();
             ctx.moveTo(-axisLength, 0);
             ctx.lineTo(axisLength, 0);
             ctx.stroke();
             
-            // Y Axis (vertical)  
+            // Y Axis
             ctx.beginPath();
             ctx.moveTo(0, -axisLength);
             ctx.lineTo(0, axisLength);
             ctx.stroke();
             
-            // Z Axis (depth - diagonal)
+            // Z Axis
             ctx.setLineDash([3, 3]);
             ctx.beginPath();
             ctx.moveTo(0, 0);
@@ -476,7 +650,6 @@
             ctx.stroke();
             ctx.setLineDash([]);
             
-            // Subtle axis arrows
             drawArrow(axisLength, 0, 6);
             drawArrow(0, -axisLength, 6);
             drawArrow(-axisLength * 0.6, axisLength * 0.6, 6);
@@ -509,7 +682,6 @@
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             
-            // Clear with very subtle fade
             ctx.fillStyle = colors.background + '05';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -519,14 +691,13 @@
             ctx.translate(centerX, centerY);
             ctx.rotate(rotationAngle);
             
-            // Draw trail with elegant gradient
             if (showTrail && points.length > 1) {
-                ctx.lineWidth = 2;
+                ctx.lineWidth = window.innerWidth <= 768 ? 1.5 : 2;
                 
                 for (let i = 0; i < points.length - 1; i++) {
                     const p1 = points[i];
                     const p2 = points[i + 1];
-                    const alpha = 0.1 + (i / points.length) * 0.7; // More subtle
+                    const alpha = 0.1 + (i / points.length) * 0.7;
                     
                     ctx.strokeStyle = colors.trail.replace('0.8', alpha.toFixed(2));
                     
@@ -537,7 +708,6 @@
                 }
             }
             
-            // Draw current position with subtle glow
             if (points.length > 0) {
                 const current = points[points.length - 1];
                 
@@ -545,7 +715,7 @@
                 ctx.shadowBlur = 8;
                 ctx.fillStyle = colors.current;
                 ctx.beginPath();
-                ctx.arc(current.x, current.y, 4, 0, Math.PI * 2);
+                ctx.arc(current.x, current.y, window.innerWidth <= 768 ? 3 : 4, 0, Math.PI * 2);
                 ctx.fill();
                 
                 ctx.shadowBlur = 0;
@@ -567,7 +737,7 @@
             y = 0;
             z = 0;
             points = [];
-            rotationAngle = Math.PI / 6; // Reset to initial view
+            rotationAngle = Math.PI / 6;
             dt = 0.01;
             updateAxisLabels();
         }
@@ -575,6 +745,7 @@
         function togglePause() {
             isPaused = !isPaused;
             document.getElementById('pauseBtn').textContent = isPaused ? 'RESUME' : 'PAUSE';
+            document.getElementById('mobilePauseBtn').textContent = isPaused ? 'RESUME' : 'PAUSE';
         }
         
         function changeColors() {
@@ -585,6 +756,7 @@
         function toggleRotation() {
             autoRotate = !autoRotate;
             document.getElementById('rotateBtn').textContent = autoRotate ? 'STOP' : 'ROTATE';
+            document.getElementById('mobileRotateBtn').textContent = autoRotate ? 'STOP' : 'ROTATE';
         }
         
         function increaseSpeed() {
